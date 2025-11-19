@@ -1,0 +1,126 @@
+{% extends "base.html" %} {% block title %}Login - Expense Manager{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+          <h3 class="mb-0"><i class="bi bi-person-circle"></i> Login</h3>
+        </div>
+        <div class="card-body p-4">
+          <form action="/login" method="POST">
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                <i class="bi bi-person"></i> Username
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">
+                <i class="bi bi-lock"></i> Password
+              </label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="remember_me"
+                name="remember_me"
+              />
+              <label class="form-check-label" for="remember_me">
+                Remember me
+              </label>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-box-arrow-in-right"></i> Login
+              </button>
+            </div>
+          </form>
+
+          <hr class="my-4" />
+
+          <div class="alert alert-info">
+            <h6 class="alert-heading">
+              <i class="bi bi-info-circle"></i> Try Expense Manager Demo
+            </h6>
+            <p class="mb-2">
+              Test the application with these demo credentials:
+            </p>
+            <div class="row text-center">
+              <div class="col-6">
+                <strong>Username:</strong><br />
+                <code>demo</code>
+              </div>
+              <div class="col-6">
+                <strong>Password:</strong><br />
+                <code>demo123</code>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <p class="mb-2">Don't have an account?</p>
+            <a href="/register" class="btn btn-outline-primary">
+              <i class="bi bi-person-plus"></i> Sign Up
+            </a>
+          </div>
+
+          <div class="text-center mt-3">
+            <a href="/forgot-password" class="text-muted text-decoration-none">
+              <small>Forgot your password?</small>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .card {
+    border: none;
+    border-radius: 15px;
+  }
+
+  .card-header {
+    border-radius: 15px 15px 0 0 !important;
+  }
+
+  .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  }
+</style>
+{% endblock content %}

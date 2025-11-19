@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request, session, redirect, jsonify, flash, url_for
 import requests
+import os
+from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = "my-secret-key-ch61"
+
+# Enhanced secure session configuration
+app.secret_key = os.environ.get('SECRET_KEY', 'my-secret-key-ch61-dev')  # Use env var in production
+app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production with HTTPS
+app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevent JavaScript access
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # CSRF protection
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=24)  # Session timeout
 
 @app.get("/")
 @app.get("/home")
@@ -102,6 +110,7 @@ def login():
                 if "data" in data and isinstance(data["data"], dict):
                     user_data = data["data"]
                     if "user_id" in user_data and "username" in user_data:
+                        session.permanent = True  # Enable session timeout
                         session["user_id"] = user_data["user_id"]
                         session["username"] = user_data["username"]
                         flash(f"Welcome back, {user_data['username']}!", "success")
@@ -112,6 +121,7 @@ def login():
                         return render_template("login.html")
                 elif "user_id" in data and "username" in data:
                     # Fallback: handle direct response format
+                    session.permanent = True  # Enable session timeout
                     session["user_id"] = data["user_id"]
                     session["username"] = data["username"]
                     flash(f"Welcome back, {data['username']}!", "success")
@@ -128,6 +138,7 @@ def login():
         except requests.exceptions.ConnectionError:
             # Fallback to demo credentials when backend is unavailable
             if username == 'demo' and password == 'demo123':
+                session.permanent = True  # Enable session timeout
                 session["user_id"] = 1
                 session["username"] = "demo"
                 flash("Welcome to Expense Manager (Demo Mode)!", "success")
@@ -139,6 +150,7 @@ def login():
             print(f"KeyError in login response: {e}")
             flash("Backend response format error. Using demo mode.", "error")
             if username == 'demo' and password == 'demo123':
+                session.permanent = True  # Enable session timeout
                 session["user_id"] = 1
                 session["username"] = "demo"
                 flash("Welcome to Expense Manager (Demo Mode)!", "success")
